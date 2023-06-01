@@ -1,0 +1,10 @@
+<Configuration>
+  <MappedFolders>
+    <MappedFolder>
+      <HostFolder>{your-path}\win-bootstrap</HostFolder>
+      <ReadOnly>true</ReadOnly>
+    </MappedFolder>
+  </MappedFolders>
+  <LogonCommand>
+  </LogonCommand>
+</Configuration>

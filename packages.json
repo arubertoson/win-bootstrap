@@ -1,0 +1,406 @@
+[
+    {
+        "name": "Dolphin",
+        "package": "dolphin",
+        "source": "https://dolphin-emu.org/",
+        "description": "gamecube and wii emulator",
+        "workspace": "home",
+        "manager": {
+            "name": "scoop",
+            "bucket": "games"
+        }
+    },
+    {
+        "name": "PureRef",
+        "package": "pureref",
+        "source": "https://www.pureref.com",
+        "description": "image viewer",
+        "workspace": "global",
+        "manager": {
+            "name": "scoop",
+            "bucket": "extras"
+        }
+    },
+    {
+        "name": "Alacritty",
+        "package": "alacritty",
+        "source": "https://alacritty.org",
+        "description": "GPU Shell",
+        "workspace": "global",
+        "manager": {
+            "name": "scoop",
+            "bucket": "extras"
+        }
+    },
+    {
+        "name": "Media Player Classic",
+        "package": "mpc-hc-fork",
+        "source": "https://github.com/clsid2/mpc-hc",
+        "description": "Media player",
+        "workspace": "global",
+        "manager": {
+            "name": "scoop",
+            "bucket": "extras"
+        }
+    },
+    {
+        "name": "Open Log Viewer",
+        "package": "open-log-viewer",
+        "source": "https://github.com/tmoreno/open-log-viewer",
+        "description": "A multi-platform log viewer built with Electron and styled with Material Design.",
+        "workspace": "global",
+        "manager": {
+            "name": "scoop",
+            "bucket": "extras"
+        }
+    },
+    {
+        "name": "Host File Editor",
+        "package": "hosts-file-editor",
+        "source": "https://github.com/scottlerch/HostsFileEditor",
+        "description": "Accessibility tool for editing host file in windows",
+        "workspace": "global",
+        "manager": {
+            "name": "scoop",
+            "bucket": "extras"
+        }
+    },
+    {
+        "name": "Paint.net",
+        "package": "paint.net",
+        "source": "https://github.com/paintdotnet",
+        "description": "Intended as a free replacement for the Microsoft Paint software that comes with Windows, it has grown into a powerful yet simple image and photo editor tool.",
+        "workspace": "global",
+        "manager": {
+            "name": "scoop",
+            "bucket": "extras"
+        }
+    },
+    {
+        "name": "Double Commander",
+        "package": "doublecmd",
+        "source": "https://github.com/doublecmd/",
+        "description": "Double Commander is a free cross platform open source file manager with two panels side by side.",
+        "workspace": "global",
+        "manager": {
+            "name": "scoop",
+            "bucket": "extras"
+        }
+    },
+    {
+        "name": "WinSCP",
+        "package": "WinSCP.WinSCP",
+        "source": "https://winscp.net/eng/index.php",
+        "description": "WinSCP is a popular SFTP client and FTP client for Microsoft Windows",
+        "workspace": "global",
+        "manager": {
+            "name": "winget"
+        }
+    },
+    {
+        "name": "7zip",
+        "package": "7zip",
+        "source": "https://7-zip.org/",
+        "description": "compression tool",
+        "workspace": "global",
+        "manager": {
+            "name": "scoop",
+            "bucket": "main"
+        }
+    },
+    {
+        "name": "Etcher",
+        "package": "etcher",
+        "source": "https://www.balena.io/etcher",
+        "description": "Flash OS images to SD cards & USB drives, safely and easily.",
+        "workspace": "global",
+        "manager": {
+            "name": "scoop",
+            "bucket": "extras"
+        }
+    },
+    {
+        "name": "Rufus",
+        "package": "rufus",
+        "source": "https://rufus.ie",
+        "description": "Create bootable USB drives the easy way",
+        "workspace": "global",
+        "manager": {
+            "name": "scoop",
+            "bucket": "extras"
+        }
+    },
+    {
+        "name": "Image Burner",
+        "package": "imgburn",
+        "source": "https://www.imgburn.com/",
+        "description": "ImgBurn is a lightweight CD / DVD / HD DVD / Blu-ray burning application that everyone should have in their toolkit!",
+        "workspace": "global",
+        "manager": {
+            "name": "scoop",
+            "bucket": "extras"
+        }
+    },
+    {
+        "name": "Spacesniffer",
+        "package": "spacesniffer",
+        "source": "https://github.com/redtrillix/SpaceSniffer",
+        "description": "SpaceSniffer is a freeware disk space analyzer for Windows that make use of the Treemap concept to view the current disk usage.",
+        "workspace": "global",
+        "manager": {
+            "name": "scoop",
+            "bucket": "extras"
+        }
+    },
+    {
+        "name": "concfg",
+        "package": "concfg",
+        "source": "https://github.com/lukesampson/concfg",
+        "description": "concfg is a utility to import and export Windows console settings like fonts and colors.",
+        "workspace": "global",
+        "manager": {
+            "name": "scoop",
+            "bucket": "extras"
+        }
+    },
+    {
+        "name": "hwmonitor",
+        "package": "hwmonitor",
+        "source": "https://www.cpuid.com/softwares/hwmonitor.html",
+        "description": "HWMonitor is a hardware monitoring program that reads PC systems main health sensors",
+        "workspace": "global",
+        "manager": {
+            "name": "scoop",
+            "bucket": "extras"
+        }
+    },
+    {
+        "name": "Exif Tool",
+        "package": "exiftool",
+        "source": "https://exiftool.org/",
+        "description": "A command-line application for reading, writing and editing meta information in a wide variety of files.",
+        "workspace": "global",
+        "manager": {
+            "name": "scoop",
+            "bucket": "extras"
+        }
+    },
+    {
+        "name": "Busybox",
+        "package": "busybox",
+        "source": "https://frippery.org/busybox/",
+        "description": "BusyBox is a single binary that contains many common Unix tools",
+        "workspace": "global",
+        "manager": {
+            "name": "scoop",
+            "bucket": "extras"
+        }
+    },
+    {
+        "name": "sysinternals",
+        "package": "sysinternals",
+        "source": "https://docs.microsoft.com/en-us/sysinternals",
+        "description": "A set of utilities to manage, diagnose, troubleshoot, and monitor a Windows environment.",
+        "workspace": "global",
+        "manager": {
+            "name": "scoop",
+            "bucket": "extras"
+        }
+    },
+    {
+        "name": "Firefox",
+        "package": "Mozilla.Firefox",
+        "source": "https://www.mozilla.org/en-US/firefox/",
+        "description": "Firefox Browser, also known as Mozilla Firefox or simply Firefox, is a free and open-source web browser developed by the Mozilla Foundation and its subsidiary, the Mozilla Corporation.",
+        "workspace": "global",
+        "manager": {
+            "name": "winget"
+        }
+    },
+    {
+        "name": "Postman",
+        "package": "Postman.Postman",
+        "source": "https://www.postman.com/",
+        "description": "Postman is a collaboration platform for API development. Postman's features simplify each step of building an API and streamline collaboration so you can create better APIs — faster.",
+        "workspace": "global",
+        "manager": {
+            "name": "winget"
+        }
+    },
+    {
+        "name": "Discord",
+        "package": "Discord.Discord",
+        "source": "https://discord.com/",
+        "description": "Discord is a proprietary freeware instant messaging and VoIP application and digital distribution platform designed for creating communities ranging from gamers to education and businesses.",
+        "workspace": "home",
+        "manager": {
+            "name": "winget"
+        }
+    },
+    {
+        "name": "Microsoft Teams",
+        "package": "Microsoft.Teams",
+        "source": "https://www.microsoft.com/en-us/microsoft-teams/group-chat-software",
+        "description": "Microsoft Teams is a proprietary business communication platform developed by Microsoft, as part of the Microsoft 365 family of products.",
+        "workspace": "work",
+        "manager": {
+            "name": "winget"
+        }
+    },
+    {
+        "name": "Microsoft Office",
+        "package": "Microsoft.MicrosoftOffice",
+        "source": "https://www.microsoft.com/en-us/microsoft-365",
+        "description": "Microsoft 365 is a line of subscription services offered by Microsoft as part of the Microsoft Office product line.",
+        "workspace": "work",
+        "manager": {
+            "name": "winget"
+        }
+    },
+    {
+        "name": "Spotify",
+        "package": "Spotify.Spotify",
+        "source": "https://www.spotify.com",
+        "description": "With Spotify, it’s easy to find the right music or podcast for every moment – on your phone, your computer, your tablet and more.",
+        "workspace": "global",
+        "manager": {
+            "name": "winget"
+        }
+    },
+    {
+        "name": "PowerToys",
+        "package": "Microsoft.PowerToys",
+        "source": "https://github.com/microsoft/PowerToys",
+        "description": "Microsoft PowerToys is a set of utilities for power users to tune and streamline their Windows experience for greater productivity.",
+        "workspace": "global",
+        "manager": {
+            "name": "winget"
+        }
+    },
+    {
+        "name": "VisualStudioCode",
+        "package": "Microsoft.VisualStudioCode",
+        "source": "https://code.visualstudio.com",
+        "description": "Microsoft Visual Studio Code is a code editor redefined and optimized for building and debugging modern web and cloud applications.",
+        "workspace": "global",
+        "manager": {
+            "name": "winget"
+        }
+    },
+    {
+        "name": "VisualStudioCode - Insider",
+        "package": "Microsoft.VisualStudioCode.Insiders",
+        "source": "https://code.visualstudio.com/license/insiders",
+        "description": "Microsoft Visual Studio Code is a code editor redefined and optimized for building and debugging modern web and cloud applications.",
+        "workspace": "global",
+        "manager": {
+            "name": "winget"
+        }
+    },
+    {
+        "name": "Steam",
+        "package": "Valve.Steam",
+        "source": "https://store.steampowered.com",
+        "description": "Steam is a digital distribution platform developed by Valve Corporation for purchasing and playing video games. Steam offers digital rights management, matchmaking servers, video streaming, and social networking services.",
+        "workspace": "home",
+        "manager": {
+            "name": "winget"
+        }
+    },
+    {
+        "name": "Brave",
+        "package": "Brave.Brave",
+        "source": "https://brave.com",
+        "description": "The new Brave browser blocks ads and trackers that slow you down and invade your privacy. Discover a new way of thinking about how the web can work.",
+        "workspace": "global",
+        "manager": {
+            "name": "winget"
+        }
+    },
+    {
+        "name": "Audacity",
+        "package": "audacity",
+        "source": "https://www.audacityteam.org",
+        "description": "An easy-to-use, multi-track audio editor and recorder",
+        "workspace": "global",
+        "manager": {
+            "name": "scoop",
+            "bucket": "extras"
+        }
+    },
+    {
+        "name": "Everything",
+        "package": "everything",
+        "source": "https://www.voidtools.com",
+        "description": "Locate files and folders by name instantly.",
+        "workspace": "global",
+        "manager": {
+            "name": "scoop",
+            "bucket": "extras"
+        }
+    },
+    {
+        "name": "OBS Studio",
+        "package": "obs-studio",
+        "source": "https://obsproject.com",
+        "description": "Video recording and live streaming software",
+        "workspace": "global",
+        "manager": {
+            "name": "scoop",
+            "bucket": "extras"
+        }
+    },
+    {
+        "name": "win32yank",
+        "package": "win32yank",
+        "source": "https://github.com/equalsraf/win32yank",
+        "description": "A clipboard tool for Windows",
+        "workspace": "global",
+        "manager": {
+            "name": "scoop",
+            "bucket": "main"
+        }
+    },
+    {
+        "name": "Python",
+        "package": "python",
+        "source": "https://www.python.org",
+        "description": "A programming language that lets you work quickly and integrate systems more effectively.",
+        "workspace": "global",
+        "manager": {
+            "name": "scoop",
+            "bucket": "main"
+        }
+    },
+    {
+        "name": "Miro",
+        "package": "Miro.Miro",
+        "source": "https://miro.com/",
+        "description": "The online collaborative platform to bring teams together, anytime, anywhere.",
+        "workspace": "work",
+        "manager": {
+            "name": "winget"
+        }
+    },
+    {
+        "name": "Docker",
+        "package": "Docker.DockerDesktop",
+        "source": "https://www.docker.com",
+        "description": "Docker Desktop is an application for macOS and Windows machines for the building and sharing of containerized applications.",
+        "workspace": "global",
+        "manager": {
+            "name": "winget"
+        }
+    },
+    {
+        "name": "OpenSSH",
+        "package": "Microsoft.OpenSSH.Beta",
+        "source": "https://github.com/PowerShell/openssh-portable",
+        "description": "OpenSSH is a complete implementation of the SSH protocol (version 2) for secure remote login, command execution and file transfer",
+        "workspace": "global",
+        "manager": {
+            "name": "winget"
+        }
+    }
+]
+
