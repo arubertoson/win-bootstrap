@@ -401,6 +401,52 @@
         "manager": {
             "name": "winget"
         }
+    },
+        {
+        "name": "PowerShell 7",
+        "package": "Microsoft.PowerShell",
+        "source": "https://microsoft.com/PowerShell",
+        "description": "PowerShell is a cross-platform (Windows, Linux, and macOS) automation and configuration tool/framework that works well with your existing tools and is optimized for dealing with structured data (e.g. JSON, CSV, XML, etc.), REST APIs, and object models.",
+        "workspace": "global",
+        "files": [
+            {
+                "source": "./configs/PowerShell/Microsoft.PowerShell_profile.ps1",
+                "destination": "$env:OneDrive/Documents/PowerShell/Microsoft.PowerShell_profile.ps1",
+                "type": "link"
+            }
+        ],
+        "manager": {
+            "name": "winget"
+        }
+    },
+    {
+        "name": "Starship",
+        "package": "starship",
+        "source": "https://starship.rs",
+        "description": "The minimal, blazing fast, and extremely customizable prompt for any shell!",
+        "workspace": "global",
+        "files": [
+            {
+                "source": "./configs/Starship/starship.toml",
+                "destination": "$env:APPDATA/starship/starship.toml",
+                "type": "link"
+            }
+        ],
+        "manager": {
+            "name": "scoop",
+            "bucket": "main"
+        }
+    },
+    {
+        "name": "JetBrainsMono-NF-Mono",
+        "package": "JetBrainsMono-NF-Mono",
+        "source": "https://github.com/ryanoasis/nerd-fonts",
+        "description": "Nerd Fonts patched 'JetBrainsMono' Font family. (Monospace version, Nerd Fonts Symbol/Icon will be always 1 cell wide)",
+        "workspace": "global",
+        "manager": {
+            "name": "scoop",
+            "bucket": "nerd-fonts"
+        }
     }
 ]
 

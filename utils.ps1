@@ -95,12 +95,11 @@ function Install-WinGetApp {
     param (
         [string]$Package
     )
+
     Write-Verbose -Message "Preparing to install $Package"
+
     # Added accept options based on this issue - https://github.com/microsoft/winget-cli/issues/1559
     $result = winget list --exact "$Package" --accept-source-agreements
-    
-    Write-Verbose -Message ($result -join "`n")
-
     if ($result -like "No installed package found matching input criteria.*") {
         Write-Verbose -Message "Installing $Package"
         try {
@@ -176,8 +175,10 @@ function Remove-InstalledApp {
 #>
 function Move-Config-Files($files) {
     foreach ($file in $files) {
-        $source = $file.source
-        $destination = $file.destination -replace "{username}", $env:USERNAME
+        $source = Expand-EnvironmentVariablesInString (Resolve-Path $file.source)
+        $destination = Expand-EnvironmentVariablesInString (Resolve-Path $file.destination)
+
+        Write-Verbose "Source: $source --> $destination"
 
         try {
             if ($file.type -eq "copy") {
@@ -192,4 +193,22 @@ function Move-Config-Files($files) {
             Write-Host $_.Exception.Message
         }
     }
+}
+
+
+function Expand-EnvironmentVariablesInString {
+    param (
+        [string]$InputString
+    )
+
+    $regex = [regex]::new('\$env:(\w+)')
+    $matches = $regex.Matches($InputString)
+
+    foreach ($match in $matches) {
+        $varName = $match.Groups[1].Value
+        $varValue = [Environment]::GetEnvironmentVariable($varName)
+        $InputString = $InputString.Replace($match.Value, $varValue)
+    }
+
+    return $InputString
 }

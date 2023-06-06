@@ -25,7 +25,13 @@ param (
 
     [Parameter(Mandatory=$false)]
     [ValidateSet("work", "home", "global")]
-    [string]$Workspace = "home"
+    [string]$Workspace = "home",
+
+    [Parameter(Mandatory=$false)]
+    [string]$PackageName,
+
+    [Parameter(Mandatory=$false)]
+    [string]$PackageManager
 )
 
 # Show verbose output
@@ -49,24 +55,34 @@ foreach ($package in $Packages) {
     $manager = $package.manager.name
     $ws = $package.workspace.ToLower()
 
-    if ($Workspace -eq $ws -or $ws -eq "global") {
-        $command = $DispatchTable[$manager]
+    if ($Workspace -ne $ws -and $ws -ne "global") {
+        continue
+    }
 
-        switch ($manager) {
-            "Scoop" {
-                Enable-Bucket -Bucket $package.manager.bucket
-                & $command -Package $package.package -Bucket $package.manager.bucket
-            }
-            "WinGet" {
-                & $command -Package $package.package
-            }
-            "Remove" {
-                & $command -Package $package.package
-            }
-        }
+    if ($PackageName -and $package.package -ne $PackageName) {
+        continue
+    }
+    
+    if ($PackageManager -and $manager -ne $PackageManager) {
+        continue
+    }
 
-        if ($package.files) {
-            Move-Config-Files -files $package.files
+    $command = $DispatchTable[$manager]
+
+    switch ($manager) {
+        "Scoop" {
+            Enable-Bucket -Bucket $package.manager.bucket
+            & $command -Package $package.package -Bucket $package.manager.bucket
         }
+        "WinGet" {
+            & $command -Package $package.package
+        }
+        "Remove" {
+            & $command -Package $package.package
+        }
+    }
+
+    if ($package.files) {
+        Move-Config-Files -files $package.files
     }  
 }
