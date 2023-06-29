@@ -155,27 +155,27 @@ function Install-Ubuntu {
 
 
 function Invoke-Custom-Setup {
-    # Set-ExecutionPolicyForCurrentUser
-    # Install-Or-Update-WinGet
-    # Install-PowerShell7
-    # Install-Scoop
-    # Install-Ubuntu
+    Set-ExecutionPolicyForCurrentUser
+    Install-Or-Update-WinGet
+    Install-PowerShell7
+    Install-Scoop
+    Install-Ubuntu
 
     # check if Carbon is installed
-    # if (!(Get-Module -ListAvailable -Name Carbon)) {
-    #     # install Carbon if not installed
-    #     Install-Module -Name Carbon -Scope CurrentUser -Force
-    # }
+    if (!(Get-Module -ListAvailable -Name Carbon)) {
+        # install Carbon if not installed
+        Install-Module -Name Carbon -Scope CurrentUser -Force
+    }
 
-    # # import Carbon module
-    # Import-Module Carbon
+    # import Carbon module
+    Import-Module Carbon
 
 
     # Get the full user name
-    # $fullUserName = "$env:USERNAME" # Use this if your machine isn't part of a domain
-    # $fullUserName = ".\$env:USERNAME" # Use this if your machine isn't part of a domain
-    #$fullUserName = "$env:COMPUTERNAME\$env:USERNAME" # Use this if your machine is part of a domain
+    $fullUserName = "$env:USERNAME" # Use this if your machine isn't part of a domain
+    $fullUserName = ".\$env:USERNAME" # Use this if your machine isn't part of a domain
+    $fullUserName = "$env:COMPUTERNAME\$env:USERNAME" # Use this if your machine is part of a domain
 
     # Grant SeCreateSymbolicLinkPrivilege to the current user
-    # Grant-CPrivilege -Identity $fullUserName SeCreateSymbolicLinkPrivilege
+    Grant-CPrivilege -Identity $fullUserName SeCreateSymbolicLinkPrivilege
 }
