@@ -14,14 +14,19 @@ The workspace to use. Can be 'work', 'home', or 'global'.
 .PARAMETER Help
 Shows this help message.
 
+.PARAMETER Setup
+Runs the setup functions Invoke-Admin-Setup and Invoke-User-Setup from the setup.ps1 script.
+
 .EXAMPLE
 .\bootstrap.ps1 -PackagesFile "C:\path\to\file" -Workspace "home"
-
 #>
 
 param (
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory=$false)]
     [string]$PackagesFile,
+
+    [Parameter(Mandatory=$false)]
+    [string[]]$PackageNames,
 
     [Parameter(Mandatory=$false)]
     [ValidateSet("work", "home", "global")]
@@ -31,16 +36,40 @@ param (
     [string]$PackageName,
 
     [Parameter(Mandatory=$false)]
-    [string]$PackageManager
+    [string]$PackageManager,
+
+    [Parameter(Mandatory=$false)]
+    [switch]$Setup = $false
 )
 
 # Show verbose output
 $VerbosePreference = "Continue"
 
+# If the Setup switch was provided, run the setup functions
+if ($Setup) {
+    # Check if we are running as administrator
+    if (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+        # We are not running as an administrator, so throw an error
+        throw "You must run this script as an Administrator. Start PowerShell with the 'Run as Administrator' option."
+    }
+
+    # Import the setup functions from the setup.ps1 script
+    Invoke-Expression (Get-Content $PSScriptRoot\setup.ps1 -Raw)
+
+    # Call the setup functions
+    Invoke-Admin-Setup
+    Invoke-User-Setup
+
+    return
+} else {
+    # If we are not in setup mode, the PackagesFile parameter must be provided
+    if ($null -eq $PackagesFile) {
+        throw "You must provide a PackagesFile when not using the -Setup switch."
+    }
+}
+
 # Util functions
-Invoke-Expression (Get-Content $PSScriptRoot\setup.ps1 -Raw)
 Invoke-Expression (Get-Content $PSScriptRoot\utils.ps1 -Raw)
-Invoke-Custom-Setup
 
 # Setup windows with current scope
 $DispatchTable = @{
@@ -54,6 +83,11 @@ $Packages = Get-Content -Path $PackagesFile | ConvertFrom-Json
 foreach ($package in $Packages) {
     $manager = $package.manager.name
     $ws = $package.workspace.ToLower()
+
+    # Skip this package if the PackageNames parameter was provided and this package's name is not in the list
+    if ($PackageNames -and $package.package -notin $PackageNames) {
+        continue
+    }
 
     if ($Workspace -ne $ws -and $ws -ne "global") {
         continue

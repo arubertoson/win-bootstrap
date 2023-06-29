@@ -418,7 +418,7 @@
         "files": [
             {
                 "source": "./configs/PowerShell/Microsoft.PowerShell_profile.ps1",
-                "destination": "$env:OneDrive/Documents/PowerShell/Microsoft.PowerShell_profile.ps1",
+                "destination": "$PROFILE",
                 "type": "link"
             }
         ],

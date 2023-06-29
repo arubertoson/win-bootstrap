@@ -16,6 +16,64 @@
     Author: Marcus Albertsson
 #>
 
+
+<#
+.SYNOPSIS
+    Resolves environment variables in a path.
+
+.DESCRIPTION
+    The Resolve-EnvPath function takes a path as input, which can include environment variables 
+    in the format '$env:VARNAME'. It replaces each occurrence of an environment variable with its 
+    value. It handles both '/' and '\' as path separators. It returns the resolved path.
+
+.PARAMETER Path
+    The path to resolve. This can include environment variables in the format '$env:VARNAME'.
+
+.EXAMPLE
+    PS > $path = Resolve-EnvPath '$env:USERPROFILE\Documents\file.txt'
+    PS > echo $path
+
+    This will replace '$env:USERPROFILE' with the value of the 'USERPROFILE' environment variable, 
+    and then join the parts back together to form a complete path, regardless of the original path 
+    separator used.
+
+#>
+function Resolve-EnvPath {
+    param (
+        [Parameter(Mandatory = $true)]
+        [string] $InputPath
+    )
+
+    $Path = $ExecutionContext.InvokeCommand.ExpandString($InputPath)
+
+    # Split the path into parts, handling both / and \ as separators
+    $parts = $Path -split '[/\\]'
+
+    # Process each part
+    for ($i = 0; $i -lt $parts.Count; $i++) {
+        # If this part starts with $env:, it's an environment variable
+        if ($parts[$i] -match '^\$env:') {
+            # Extract the environment variable name
+            $varName = $parts[$i] -replace '^\$env:', ''
+            
+            # Get the value of the environment variable
+            $varValue = Get-Content "env:$varName"
+            
+            # Replace the part with the value of the environment variable
+            $parts[$i] = $varValue
+        }
+    }
+
+    # Join the parts back together using the appropriate separator
+    $resolvedPath = Expand-EnvironmentVariablesInString (Join-Path -Path $parts[0] -ChildPath ($parts[1..($parts.Count - 1)] -join '\'))
+
+    if ($resolvedPath.StartsWith(".")) {
+        $resolvedPath = Resolve-Path -Path $resolvedPath
+    }
+
+    return $resolvedPath
+}
+
 <#
 .SYNOPSIS
     Installs a package using Scoop.
@@ -175,8 +233,8 @@ function Remove-InstalledApp {
 #>
 function Move-Config-Files($files) {
     foreach ($file in $files) {
-        $source = Expand-EnvironmentVariablesInString (Resolve-Path $file.source)
-        $destination = Expand-EnvironmentVariablesInString (Resolve-Path $file.destination)
+        $source = Resolve-EnvPath $file.source
+        $destination = Resolve-EnvPath $file.destination
 
         Write-Verbose "Source: $source --> $destination"
 

@@ -1,24 +1,4 @@
-<#
-.SYNOPSIS
-    Script sets ExecutivePolicy for CurrentUser and installs necessary tools.
-.DESCRIPTION
-    Sets ExecutivePolicy to Unrestricted for CurrentUser Scope and installs/updates WinGet, PowerShell 7, Scoop, git, Aria2, and WSL.
-.NOTES
-    Author: Marcus Albertsson
-#>
 
-<#
-.SYNOPSIS
-    Sets the ExecutionPolicy for CurrentUser to Unrestricted.
-.DESCRIPTION
-    Checks if the current ExecutionPolicy for the CurrentUser scope is not "Unrestricted" and if it's not, sets it to "Unrestricted".
-#>
-function Set-ExecutionPolicyForCurrentUser {
-    if ((Get-ExecutionPolicy -Scope CurrentUser) -notcontains "Unrestricted") {
-        Write-Verbose -Message "Setting Execution Policy for Current User..."
-        Start-Process -FilePath "PowerShell" -ArgumentList "Set-ExecutionPolicy", "-Scope", "CurrentUser", "-ExecutionPolicy", "Unrestricted", "-Force" -Verb RunAs -Wait
-    }
-}
 
 function Find-Installed-Package {
     param(
@@ -40,8 +20,8 @@ function Find-Installed-Package {
     Downloads and installs or updates the WinGet package from GitHub.
 #>
 function Install-Or-Update-WinGet {
-    Write-Verbose -Message "Installing/Updating WinGet to the latest version..."
-    
+    Write-Verbose -Message "Checking for WinGet updates..."
+
     # This is required for testing in Windows Sandbox
     $depName = "Microsoft.VCLibs.140.00.UWPDesktop"
     $hasDepedency = Find-Installed-Package -PackageName $depName 
@@ -54,6 +34,24 @@ function Install-Or-Update-WinGet {
         
         Add-AppxPackage -Path $depPath
         Remove-Item $depPath
+    }
+
+    # Check if 'winget' command exists
+    if (!(Get-Command "winget" -ErrorAction SilentlyContinue)) {
+        Write-Verbose -Message "WinGet is not installed. Installing now..."
+    }
+    else {
+        $currentVersion = winget --info | Where-Object { $_ -match 'Version' } | ForEach-Object { ($_ -split ':')[1].Trim() }
+
+        # Get the latest version number from GitHub
+        $latestVersion = (Invoke-RestMethod -Uri "https://api.github.com/repos/microsoft/winget-cli/releases/latest").tag_name
+
+        if ($currentVersion -eq $latestVersion) {
+            Write-Verbose -Message "Latest WinGet ($latestVersion) is already installed."
+            return
+        }
+
+        Write-Verbose -Message "Updating WinGet from version $currentVersion to version $latestVersion..."
     }
 
     # get latest download url
@@ -154,28 +152,68 @@ function Install-Ubuntu {
 }
 
 
-function Invoke-Custom-Setup {
-    Set-ExecutionPolicyForCurrentUser
+<#
+.SYNOPSIS
+    Sets up user environment.
+
+.DESCRIPTION
+    The Invoke-User-Setup function performs several actions to configure the user's environment.
+    These actions include setting the execution policy for the current user, installing or updating 
+    WinGet, installing PowerShell 7, installing Scoop, and installing Ubuntu.
+
+.EXAMPLE
+    PS > Invoke-User-Setup
+
+    This will perform all the setup actions for the current user.
+
+#>
+function Invoke-User-Setup {
     Install-Or-Update-WinGet
     Install-PowerShell7
     Install-Scoop
     Install-Ubuntu
+}
+
+
+<#
+.SYNOPSIS
+    Sets up admin environment.
+
+.DESCRIPTION
+    The Invoke-Admin-Setup function performs several actions to configure the admin environment.
+    It sets the execution policy for the current user, checks and installs the Carbon module if 
+    not present, imports the Carbon module, and finally grants the SeCreateSymbolicLinkPrivilege 
+    to the current user.
+
+.PARAMETER None
+
+.EXAMPLE
+    PS > Invoke-Admin-Setup
+
+    This will perform all the setup actions for the admin.
+
+#>
+function Invoke-Admin-Setup {
+    if ((Get-ExecutionPolicy -Scope CurrentUser) -notcontains "Unrestricted") {
+        Write-Verbose -Message "Setting Execution Policy for Current User..."
+        Start-Process -FilePath "PowerShell" -ArgumentList "Set-ExecutionPolicy", "-Scope", "CurrentUser", "-ExecutionPolicy", "Unrestricted", "-Force" -Verb RunAs -Wait
+    }
 
     # check if Carbon is installed
     if (!(Get-Module -ListAvailable -Name Carbon)) {
-        # install Carbon if not installed
         Install-Module -Name Carbon -Scope CurrentUser -Force
     }
 
-    # import Carbon module
+    # import Carbon module necessary for granting symbolic link privileges
     Import-Module Carbon
-
 
     # Get the full user name
     $fullUserName = "$env:USERNAME" # Use this if your machine isn't part of a domain
     $fullUserName = ".\$env:USERNAME" # Use this if your machine isn't part of a domain
     $fullUserName = "$env:COMPUTERNAME\$env:USERNAME" # Use this if your machine is part of a domain
 
+    Write-Verbose -Message "granting $fullUserName symlink priveleges"
+
     # Grant SeCreateSymbolicLinkPrivilege to the current user
-    Grant-CPrivilege -Identity $fullUserName SeCreateSymbolicLinkPrivilege
+    Grant-CPrivilege -Identity $fullUserName -Privilege SeCreateSymbolicLinkPrivilege
 }
