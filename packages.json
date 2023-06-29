@@ -27,6 +27,13 @@
         "source": "https://alacritty.org",
         "description": "GPU Shell",
         "workspace": "global",
+        "files": [
+            {
+                "source": "./configs/alacritty/alacritty.yml",
+                "destination": "$env:APPDATA/alacritty/alacritty.yml",
+                "type": "link"
+            }
+        ],
         "manager": {
             "name": "scoop",
             "bucket": "extras"
