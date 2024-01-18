@@ -1,0 +1,70 @@
+# Split up configuration into manageable pieces
+import = [
+    "~/AppData/Roaming/alacritty/theme/catppuccin_frappe.toml",
+]
+
+# Live config reload (changes require restart)
+live_config_reload = true
+
+# This doesn't work on wsl, instead we have to pass the "cd ~" to
+# shell command.
+# working_directory = "~"
+shell = { program = "wsl", args = ["--cd ~"] }
+
+
+[window]
+# Allow terminal applications to change Alacritty's window title.
+dynamic_title = true
+
+position = { x = 20, y = 20}
+# Number of lines/columns (not pixels) in the terminal. Both lines and
+# columns must be non-zero for this to take effect. The number of
+# columns must be at least 2, while using a value of 0 for columns
+# and lines will fall back to the window manager's recommended size
+dimensions = { columns = 100, lines = 40 }
+
+# Blank space added around the window in pixels. This padding is scaled
+# by DPI and the specified value is always added at both opposing sides.
+padding = { x = 10 }
+dynamic_padding = true
+
+
+[font]
+size = 14.0
+
+bold = { family = "JetBrainsMono Nerd Font Mono", style = "Bold"}
+italic = { family = "JetBrainsMono Nerd Font Mono", style = "Italic"}
+normal = { family = "JetBrainsMono Nerd Font Mono", style = "Regular"}
+
+
+[selection]
+save_to_clipboard = true
+semantic_escape_chars = ",`|:\"' ()[]{}<>\t"
+
+
+[cursor]
+unfocused_hollow = true
+style = { shape = "Block", blinking = "Off" }
+
+
+[mouse]
+hide_when_typing = true
+
+# See keyboard.bindings for full documentation on mods, mode, action, and chars.
+#
+# When an application running within Alacritty captures the mouse, the
+# `Shift` modifier can be used to suppress mouse reporting. If no action
+# is found for the event, actions for the event without the `Shift` modifier
+# are triggered instead.
+bindings = [
+    { mouse = "Middle", action = "PasteSelection"}
+]
+
+
+[keyboard]
+
+# This will make it possible to use the `Ctrl + Space` while chaining, for instance
+# `Ctrl + Space, t` should be bound to perform an action.
+bindings = [
+    { chars = "\u0000", key = "Space", mods = "Control" },
+]
