@@ -67,6 +67,14 @@ function Add-SshKey([switch]$Verbose) {
         return
     }
 
+    # $sshDir = Resolve-Path ~\.ssh
+    # $keyFiles = Get-ChildItem -Path $sshDir -Filter *. | Where-Object {!$_.PSIsContainer -and $_.Name -notlike "*.pub"}
+
+    # # Add each key to the SSH agent
+    # foreach ($keyFile in $keyFiles) {
+    #     & ssh-add $keyFile.FullName
+    # }
+
     # Run ssh-add, add the keys
     & ssh-add
 }
@@ -158,45 +166,6 @@ function Start-NativeSshAgent([switch]$Verbose) {
     return $true
 }
 
-function Start-SshAgent([switch]$Verbose) {
-    # If we're using the native OpenSSH, we can just interact with the service directly.
-    if (!$global:pshazz.theme.ssh.ignoreNativeAgent -and (Start-NativeSshAgent -Verbose:$Verbose)) {
-        return
-    }
-
-    # Import old ssh-agent envs if it exists
-    Import-AgentEnv
-
-    [int]$cygwinId = Get-SshAgent
-    if ($cygwinId -gt 0) {
-        if ($Verbose) {
-            if (Test-Administrator) {
-                $agentPid = Get-Process -IncludeUserName `
-                  | Where-Object { $_.Name -eq 'ssh-agent' `
-                  -and $_.UserName -eq ([Security.Principal.WindowsIdentity]::GetCurrent().Name)} `
-                  | Select-Object -ExpandProperty Id
-            } else {
-                $agentPid = Get-Process | Where-Object { $_.Name -eq 'ssh-agent' } `
-                  | Select-Object -ExpandProperty Id
-            }
-            Write-Host "ssh-agent(s) already running (pid $($agentPid))"
-        }
-        return
-    }
-
-    # Start ssh-agent and get output, translate to
-    # powershell type and write into agent env file
-    (& ssh-agent) `
-        -creplace '([A-Z_]+)=([^;]+).*', '$$env:$1="$2"' `
-        -creplace 'echo ([^;]+);' `
-        -creplace 'export ([^;]+);' `
-        | Out-File -FilePath $agentEnvFile -Encoding ascii -Force
-    # And then import new ssh-agent envs
-    Import-AgentEnv
-
-    Add-SshKey -Verbose:$Verbose
-}
-
 function Test-IsSshBinaryMissing([switch]$Verbose) {
     # ssh-add
     $sshAdd = Get-Command "ssh-add.exe" -TotalCount 1 -ErrorAction SilentlyContinue
@@ -227,5 +196,8 @@ function Init-SSH {
         $Verbose = $true
     }
     if (Test-IsSshBinaryMissing -Verbose:$Verbose) { return }
-    Start-SshAgent -Verbose:$Verbose
+
+    Write-Verbose -Message "Starting SSH agent"
+
+    Start-NativeSshAgent -Verbose:$Verbose
 }

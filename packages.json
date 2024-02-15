@@ -11,6 +11,16 @@
         }
     },
     {
+        "name": "Google Play Beta",
+        "package": "Google.PlayGames.Beta",
+        "source": "https://play.google.com/googleplaygames",
+        "description": "Play Android games from Google Play on Windows PC",
+        "workspace": "home",
+        "manager": {
+            "name": "winget"
+        }
+    },
+    {
         "name": "PureRef",
         "package": "pureref",
         "source": "https://www.pureref.com",
@@ -29,8 +39,13 @@
         "workspace": "global",
         "files": [
             {
-                "source": "./configs/alacritty/alacritty.yml",
-                "destination": "$env:APPDATA/alacritty/alacritty.yml",
+                "source": "./configs/alacritty/alacritty.toml",
+                "destination": "$env:APPDATA/alacritty/alacritty.toml",
+                "type": "link"
+            },
+            {
+                "source": "./configs/alacritty/themes",
+                "destination": "$env:APPDATA/alacritty/themes",
                 "type": "link"
             }
         ],
